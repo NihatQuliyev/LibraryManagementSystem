@@ -1,46 +1,47 @@
 package model;
 
 public class Library {
-   private long id;
-   private String bookName;
-   private String authorName;
-   private String genre;
-   private short countPage;
-   private String Language;
-   private int prise;
-   private boolean stockStatus ;
+    private  int id;
+    private String name;
+    private String author;
+    private String genre;
+    private int pageCount;
+    private String language;
+    private int price;
+    private int count;
+    private byte stockStatus;
 
-
-    public Library(long id, String bookName, String authorName, String genre, short countPage, String language, int prise, boolean stockStatus) {
+    public Library(int id,String name, String author, String genre, int pageCount, String language, int price, int count, byte stockStatus) {
         this.id = id;
-        this.bookName = bookName;
-        this.authorName = authorName;
+        this.name = name;
+        this.author = author;
         this.genre = genre;
-        this.countPage = countPage;
-        Language = language;
-        this.prise = prise;
+        this.pageCount = pageCount;
+        this.language = language;
+        this.price = price;
+        this.count = count;
         this.stockStatus = stockStatus;
     }
 
-    public long getId() {
-        return id;
+    public Library() {
+        ++this.id;
     }
 
-
-    public String getBookName() {
-        return bookName;
+    public String getName() {
+        return name;
     }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
+    public Library setName(String name) {
+        this.name = name;
+        return null;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getGenre() {
@@ -51,49 +52,68 @@ public class Library {
         this.genre = genre;
     }
 
-    public short getCountPage() {
-        return countPage;
+    public int getPageCount() {
+        return pageCount;
     }
 
-    public void setCountPage(short countPage) {
-        this.countPage = countPage;
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
     }
 
     public String getLanguage() {
-        return Language;
+        return language;
     }
 
     public void setLanguage(String language) {
-        Language = language;
+        this.language = language;
     }
 
-    public Integer getPrise() {
-        return prise;
+    public int getPrice() {
+        return price;
     }
 
-    public void setPrise(Integer prise) {
-        this.prise = prise;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public boolean getStockStatus() {
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public byte getStockStatus() {
         return stockStatus;
     }
 
-    public void setStockStatus(boolean stockStatus) {
+    public int getId() {
+        return id;
+    }
+
+
+
+    public void setStockStatus(byte stockStatus) {
         this.stockStatus = stockStatus;
     }
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", bookName='" + bookName + '\'' +
-                ", authorName='" + authorName + '\'' +
-                ", genre='" + genre + '\'' +
-                ", countPage=" + countPage +
-                ", Language='" + Language + '\'' +
-                ", prise=" + prise +
-                ", stockStatus=" + stockStatus +
-                '}';
+        return "Name: " + getName() +
+                "\nAuthor: " + getAuthor() +
+                "\nGenre: " + getGenre() +
+                "\nPageCount: " + getPageCount() +
+                "\nLanguage: " + getLanguage() +
+                "\nPrice: " + getPrice() +
+                "\nCount: " + getCount() + "\n";
     }
+
+    public  String info(){
+        return "name: " + name +
+                "\nauthor: " + author +
+                "\ngenre: " + genre +
+                "\nlanguage: " +language + "\n";
+    }
+
 }

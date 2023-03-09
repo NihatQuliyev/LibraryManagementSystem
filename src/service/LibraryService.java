@@ -1,9 +1,10 @@
 package service;
 
 public interface LibraryService {
-    boolean register();
+    void register();
     void show();
-
-    boolean delete();
     boolean update();
+    boolean delete();
+    void search();
+    void storageToStock();
 }

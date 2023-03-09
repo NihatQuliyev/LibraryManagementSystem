@@ -1,132 +1,109 @@
 package service.impl;
-
 import model.Library;
-
+import static util.MenuUtil.*;
 import static util.InputUtil.*;
-
-import static globalData.GlobalData.libraryServices;
+import static helper.ServiceHelper.*;
+import static globalData.GlobalData.libraries;
 public class LibraryService implements service.LibraryService {
-    static int id = 0;
-    public static Library fillLibrary(){
-        String bookName = stringInput("Enter the library name: ");
-        String authorName = stringInput("Enter the author name: ");
-        String genre = stringInput("Enter the genre name: ");
-        short countPage = shortInput("Enter the library count");
-        String language= stringInput("Enter the library language: ");
-        short prise = shortInput("Enter the prise: ");
-        boolean stockStatus  = false;
-        Library library = new Library(++id,bookName,authorName,genre,countPage,language,prise,stockStatus);
-        return library;
+    @Override
+    public void register() {
+        int count = intInput("Enter the count: ");
+        for (int i = 0; i < count; i++) {
+            System.out.println(i+1 + " Book");
+            libraries.add(fillLibrary());
+        }
+        System.out.println("Successfully\n");
     }
     @Override
-        public boolean register()  {
-        short count = shortInput("How many Library register? : ");
-        if(libraryServices == null) {
-            libraryServices = new Library[count];
-            for (int i = 0, k = 0; i < count; i++) {
-                System.out.println("--------------");
-                System.out.println(++k + " . Library");
-
-                Library library = fillLibrary();
-                if (library != null) {
-                    libraryServices[i] = library;
-
-                } else {
-                    Library[] tempLibrary = libraryServices;
-                    libraryServices = new Library[tempLibrary.length - (count - i)];
-                    int n = 0;
-                    for (Library newLibrary : tempLibrary) {
-                        libraryServices[n] = newLibrary;
-                        n++;
-
+    public void show() {
+        if (libraries != null && libraries.size() != 0) {
+            int option = entryShow();
+            if (option == 1) {
+                int number = 1;
+                for (Library library : libraries) {
+                    System.out.println(number++ + " book \n" + library.info());
+                }
+                if (libraries != null) {
+                    number = 1;
+                    detailBook();
+                }
+            } else if (option == 2) {
+                int number = 1;
+                for (Library library : libraries) {
+                    if (library.getStockStatus() == 1) {
+                        System.out.println(number++ + " book \n" + library.info());
                     }
                 }
-
-            }
-            System.out.println("--------------");
-            System.out.println("register successfully");
-        } else {
-            Library[] tempLibrary = libraryServices;
-            libraryServices = new Library[libraryServices.length + count];
-            for (int i = 0, k = 0; i < libraryServices.length; i++) {
-                if (i < tempLibrary.length) {
-                    libraryServices[i] = tempLibrary[i];
-                } else {
-                    System.out.println("--------------");
-                    System.out.println(++k + " . Library : ");
-                    Library library = fillLibrary();
-                    if (library != null) {
-                        libraryServices[i] = library;
-                    } else {
-                        Library[] newLibrary = libraryServices;
-                        libraryServices = new Library[newLibrary.length - (libraryServices.length - i)];
-                        int n = 0;
-                        for (Library newLibrary1 : newLibrary) {
-                            libraryServices[n] = newLibrary1;
-                            n++;
-                        }
-                    }
+                if (libraries != null) {
+                    number = 1;
+                    detailBook();
                 }
             }
-            System.out.println("--------------");
-            System.out.println("register successfully");
-        }
-        return false;
-    }
-
-    @Override
-    public void show()  {
-        if(libraryServices == null || libraryServices.length == 0 ) {
         }
         else {
-            for (int i = 0; i < libraryServices.length; i++) {
-                System.out.println("----------");
-                System.out.println(i + 1 + " . Library: ");
-                System.out.println(libraryServices[i]);
-            }
+            System.out.println("Invalid option");
         }
     }
-
-    public boolean delete()  {
-        if (libraryServices == null  || libraryServices.length == 0){
-        }
-        else {
-            long id = longInput("Enter the id: ");
-            if (id>=libraryServices.length+1){
-            }
-            for (Library library : libraryServices) {
-                if (library.getId() == id) {
-                    Library[] tempLibrary = libraryServices;
-                    libraryServices = new Library[tempLibrary.length - 1];
-                    int k = 0;
-                    for (Library newLibrary : tempLibrary) {
-                        if (newLibrary.getId() == id)
-                            continue;
-                        libraryServices[k] = newLibrary;
-                        k++;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     public boolean update() {
 
         return false;
     }
-    public void findBookName() {
-        if(libraryServices == null || libraryServices.length == 0){
-        }
-        else{
-            String name = stringInput("Enter the book name: ");
-            for (int i = 0; i < libraryServices.length; i++) {
-                if (libraryServices[i].getBookName().contains(name)) {
-                    System.out.println(libraryServices[i]);
-                    System.out.println("------------");
+    @Override
+    public boolean delete() {
+        boolean isTrue = false;
+        if (libraries != null && libraries.size() != 0) {
+            int id = intInput("Enter the id :");
+            for (Library library : libraries) {
+                if (library.getId() == id) {
+                    libraries.remove(library);
+                    isTrue = true;
                 }
             }
+            if (isTrue == true) {
+                System.out.println("Successfully");
+            } else {
+                System.out.println("Invalid id");
+            }
+        }
+        else {
+            System.out.println("Invalid option");
+        }
+        return isTrue;
+    }
+    public void search() {
+        if (libraries != null && libraries.size() != 0) {
+            byte option = entrySearch();
+            switch (option) {
+                case 1:
+                    nameSearch();
+                    break;
+                case 2:
+                    authorSearch();
+                    break;
+                case 3:
+                    genreSearch();
+                    break;
+                default:
+                    System.out.println("Invalid option");
+            }
+        }
+        else {
+            System.out.println("Invalid option");
+        }
+    }
+    @Override
+    public void storageToStock() {
+        if (libraries != null && libraries.size() != 0) {
+            String bookName = stringInput("Enter the book name : ");
+            for (Library library : libraries) {
+                if (library.getName().equals(bookName)) {
+                    library.setStockStatus((byte) 1);
+                }
+            }
+        }
+        else {
+            System.out.println("Invalid option");
         }
     }
 }

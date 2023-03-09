@@ -1,19 +1,22 @@
 package util;
+
 import java.util.Scanner;
+
 public class InputUtil {
+
     public static String stringInput(String title){
         Scanner scanner = new Scanner(System.in);
         System.out.print(title);
         return scanner.nextLine();
     }
-    public static long longInput(String title){
+    public static int intInput(String title){
         Scanner scanner = new Scanner(System.in);
         System.out.print(title);
-        return scanner.nextLong();
+        return scanner.nextInt();
     }
-    public static short shortInput(String title){
+    public static byte byteInput(String title){
         Scanner scanner = new Scanner(System.in);
         System.out.print(title);
-        return scanner.nextShort();
+        return scanner.nextByte();
     }
 }
